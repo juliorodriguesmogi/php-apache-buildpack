@@ -4,7 +4,7 @@
 ################################################################################
 
 # ---------------------------------------------------------------------------- #
-# Set Env. value(s)                                                            #
+# 変数を設定                                                                   #
 # ---------------------------------------------------------------------------- #
 BIN_DIR=$(dirname $0)
 BUILDPACK_DIR=`cd $(dirname $0); cd ..; pwd`
@@ -17,46 +17,44 @@ PHP_VERSION="5.6.14"
 PHP_PATH="php"
 
 # ---------------------------------------------------------------------------- #
-# Setup Document root for httpd                                                #
+# ドキュメントルート(/app/www/)の設定                                          #
 # ---------------------------------------------------------------------------- #
 cd $BUILD_DIR
 
-# move app things to www
 mkdir -p $CACHE_DIR/www
 mv * $CACHE_DIR/www
 mv $CACHE_DIR/www .
 
 # ---------------------------------------------------------------------------- #
-# Download binaries of Apache HTTP Server                                      #
+# コンパイル済みの Apache HTTP Server を展開                                   #
 # ---------------------------------------------------------------------------- #
 APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache-$APACHE_VERSION.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"
 tar -xvf $APACHE_DIR
 
 # ---------------------------------------------------------------------------- #
-# Download binaries of PHP                                                     #
+# コンパイル済みの PHP を展開                                                  #
 # ---------------------------------------------------------------------------- #
 PHP_DIR="${BUILDPACK_DIR}/download/php/5.6/php-$PHP_VERSION.tar.gz"
 echo "-----> Bundling PHP version $PHP_VERSION"
 tar -xvf $PHP_DIR 
 
 # ---------------------------------------------------------------------------- #
-# Replace config file(s)                                                       #
+# httpd.conf と php.ini を上書き                                               #
 # ---------------------------------------------------------------------------- #
 ls -al $BUILDPACK_DIR
 cp $BUILDPACK_DIR/config/httpd.conf $APACHE_PATH/conf
 cp $BUILDPACK_DIR/config/php.ini $PHP_PATH
 
 # ---------------------------------------------------------------------------- #
-# Make php available on bin                                                    #
+# php のパスを設定                                                             #
 # ---------------------------------------------------------------------------- #
 mkdir -p bin
 ln -s /app/php/bin/php bin/php
 
 # ---------------------------------------------------------------------------- #
-# Make boot.sh script for running app(s)                                       #
+# Apache HTTP Server 起動スクリプト(boot.sh)作成                               #
 # ---------------------------------------------------------------------------- #
-# make boot.sh
 cat << EOF > boot.sh
 for var in \`env|cut -f1 -d=\`; do
   echo "PassEnv \$var" >> /app/apache/conf/httpd.conf;
@@ -74,7 +72,7 @@ EOF
 chmod +x boot.sh
 
 # ---------------------------------------------------------------------------- #
-# Clean the cache                                                              #
+# キャッシュディレクトリをクリア                                               #
 # ---------------------------------------------------------------------------- #
 rm -rf $CACHE_DIR
 
