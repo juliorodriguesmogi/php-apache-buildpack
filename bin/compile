@@ -28,11 +28,12 @@ mv $CACHE_DIR/www .
 # ---------------------------------------------------------------------------- #
 # コンパイル済みの Apache HTTP Server を展開                                   #
 # ---------------------------------------------------------------------------- #
-#APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache-$APACHE_VERSION.tar.gz"
-APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache.zip"
+APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache-$APACHE_VERSION.tar.gz"
+#APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache.zip"
 echo "-----> Bundling Apache version $APACHE_VERSION"
-#tar -zxvf $APACHE_DIR
-unzip apache.zip
+tar -zxvf $APACHE_DIR
+#unzip apache.zip
+
 chmod 775 apache
 # ---------------------------------------------------------------------------- #
 # コンパイル済みの PHP を展開                                                  #
