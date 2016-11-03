@@ -12,7 +12,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 
 APACHE_VERSION="2.4.16"
-APACHE_PATH="apache"
+APACHE_PATH="apache-2.4.23-2"
 PHP_VERSION="5.6.14"
 PHP_PATH="php"
 
@@ -59,16 +59,16 @@ ln -s /app/php/bin/php bin/php
 # ---------------------------------------------------------------------------- #
 cat << EOF > boot.sh
 for var in \`env|cut -f1 -d=\`; do
-  echo "PassEnv \$var" >> /app/apache/conf/httpd.conf;
+  echo "PassEnv \$var" >> /app/$APACHE_PATH/conf/httpd.conf;
 done
-touch /app/apache/logs/error_log
-touch /app/apache/logs/access_log
-tail -F /app/apache/logs/error_log &
-tail -F /app/apache/logs/access_log &
-export LD_LIBRARY_PATH=/app/php/ext:/app/apache/modules
+touch /app/$APACHE_PATH/logs/error_log
+touch /app/$APACHE_PATH/logs/access_log
+tail -F /app/$APACHE_PATH/logs/error_log &
+tail -F /app/$APACHE_PATH/logs/access_log &
+export LD_LIBRARY_PATH=/app/php/ext:/app/$APACHE_PATH/modules
 export PHP_INI_SCAN_DIR=/app/www
 echo "Launching apache"
-exec /app/apache/bin/httpd -DNO_DETACH
+exec /app/$APACHE_PATH/bin/httpd -DNO_DETACH
 EOF
 
 chmod +x boot.sh
