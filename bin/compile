@@ -30,7 +30,7 @@ mv $CACHE_DIR/www .
 # ---------------------------------------------------------------------------- #
 APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache-$APACHE_VERSION.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"
-tar -xvf $APACHE_DIR
+tar -zxvf $APACHE_DIR
 
 # ---------------------------------------------------------------------------- #
 # コンパイル済みの PHP を展開                                                  #
