@@ -13,7 +13,7 @@ CACHE_DIR=$2
 
 APACHE_VERSION="2.4.23-2"
 APACHE_PATH="apache-2.4.23-2"
-PHP_VERSION="5.6.14"
+PHP_VERSION="5.6.27"
 PHP_PATH="php"
 
 # ---------------------------------------------------------------------------- #
@@ -40,6 +40,7 @@ tar -zxvf $APACHE_DIR
 PHP_DIR="${BUILDPACK_DIR}/download/php/5.6/php-$PHP_VERSION.tar.gz"
 echo "-----> Bundling PHP version $PHP_VERSION"
 tar -xvf $PHP_DIR 
+mv $PHP_VERSION.tar.gz php
 
 # ---------------------------------------------------------------------------- #
 # httpd.conf と php.ini を上書き                                               #
@@ -52,7 +53,7 @@ cp $BUILDPACK_DIR/config/php.ini $PHP_PATH
 # php のパスを設定                                                             #
 # ---------------------------------------------------------------------------- #
 mkdir -p bin
-ln -s /app/php/bin/php bin/php
+ln -s /app/php/sapi/cli/php bin/php
 
 # ---------------------------------------------------------------------------- #
 # Apache HTTP Server 起動スクリプト(boot.sh)作成                               #
