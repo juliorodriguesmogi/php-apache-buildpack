@@ -38,7 +38,7 @@ tar -zxf $APACHE_DIR
 PHP_DIR="${BUILDPACK_DIR}/download/php/5.6/php-$PHP_VERSION.tar.gz"
 echo "-----> Bundling PHP version $PHP_VERSION"
 tar -xf $PHP_DIR 
-mv $PHP_VERSION php
+mv php-$PHP_VERSION php
 
 # ---------------------------------------------------------------------------- #
 # httpd.conf と php.ini を上書き                                               #
