@@ -35,7 +35,7 @@ APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache-$APACHE_VERSION.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"
 tar -zxf $APACHE_DIR
 # Removing any previous log
-rm -fr /app/$APACHE_PATH/logs/*.*
+rm $APACHE_PATH/logs/*.* -fr
 # ---------------------------------------------------------------------------- #
 #  PHP                                                                         #
 # ---------------------------------------------------------------------------- #
@@ -63,13 +63,13 @@ ln -s /app/php-$PHP_VERSION/sapi/cli/php bin/php
 # ---------------------------------------------------------------------------- #
 cat << EOF > boot.sh
 for var in \`env|cut -f1 -d=\`; do
-  echo "PassEnv \$var" >> /app/$APACHE_PATH/conf/httpd.conf;
+  echo "PassEnv \$var" >> /app/$APACHE_PATH/config/httpd.conf;
 done
 touch /app/$APACHE_PATH/logs/error_log
 touch /app/$APACHE_PATH/logs/access_log
 tail -F /app/$APACHE_PATH/logs/error_log &
 tail -F /app/$APACHE_PATH/logs/access_log &
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/$PHP_PATH/ext:/app/$APACHE_PATH/modules
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/$PHP_PATH/ext:/app/$APACHE_PATH/modules:/app/$PHP_PATH/sapi/cli
 export PHP_INI_SCAN_DIR=/app/www
 echo "Launching apache"
 exec /app/$APACHE_PATH/bin/httpd -DNO_DETACH
