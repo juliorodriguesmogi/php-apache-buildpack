@@ -34,7 +34,8 @@ mv $CACHE_DIR/www .
 APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache-$APACHE_VERSION.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"
 tar -zxf $APACHE_DIR
-
+# Removing any previous log
+rm -fr /app/$APACHE_PATH/logs/*.*
 # ---------------------------------------------------------------------------- #
 #  PHP                                                                         #
 # ---------------------------------------------------------------------------- #
@@ -64,7 +65,6 @@ cat << EOF > boot.sh
 for var in \`env|cut -f1 -d=\`; do
   echo "PassEnv \$var" >> /app/$APACHE_PATH/conf/httpd.conf;
 done
-rm -fr /app/$APACHE_PATH/logs/*.*
 touch /app/$APACHE_PATH/logs/error_log
 touch /app/$APACHE_PATH/logs/access_log
 tail -F /app/$APACHE_PATH/logs/error_log &
