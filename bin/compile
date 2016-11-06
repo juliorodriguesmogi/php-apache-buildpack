@@ -36,7 +36,7 @@ APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache-$APACHE_VERSION.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"
 tar -zxf $APACHE_DIR
 # Removing any previous log
-rm $APACHE_PATH/logs/*.* -fr
+rm /app/$APACHE_PATH/logs/*.* -fr
 ls -la $APACHE_PATH/logs 
 
 # ---------------------------------------------------------------------------- #
