@@ -23,8 +23,9 @@ cd $BUILD_DIR
 
 mkdir -p $CACHE_DIR/www
 mkdir $CACHE_DIR/www/session
-chmod 777 $CACHE_DIR/www/session
-chmod 777 $CACHE_DIR/www -R
+mkdir $CACHE_DIR/www/tmp
+chmod 777 $CACHE_DIR/www/session -R
+chmod 777 $CACHE_DIR/www/tmp -R
 mv * $CACHE_DIR/www
 mv $CACHE_DIR/www .
 
