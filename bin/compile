@@ -14,7 +14,7 @@ CACHE_DIR=$2
 APACHE_VERSION="2.4.23-2"
 APACHE_PATH="apache-2.4.23-2"
 PHP_VERSION="5.6.27"
-PHP_PATH="php"
+PHP_PATH="php-5.6.27"
 
 # ---------------------------------------------------------------------------- #
 # app/www							                                           #
@@ -40,14 +40,14 @@ tar -zxf $APACHE_DIR
 PHP_DIR="${BUILDPACK_DIR}/download/php/5.6/php-$PHP_VERSION.tar.gz"
 echo "-----> Bundling PHP version $PHP_VERSION"
 tar -xf $PHP_DIR 
-mv php php-$PHP_VERSION
+mv php $PHP_PATH
 
 # ---------------------------------------------------------------------------- #
 # httpd.conf   php.ini                                                         #
 # ---------------------------------------------------------------------------- #
 ls -al $BUILDPACK_DIR
 cp $BUILDPACK_DIR/config/httpd.conf $APACHE_PATH/conf
-cp $BUILDPACK_DIR/config/php.ini php-$PHP_VERSION
+cp $BUILDPACK_DIR/config/php.ini $PHP_PATH
 
 # ---------------------------------------------------------------------------- #
 # php                                                                          #
@@ -66,7 +66,7 @@ touch /app/$APACHE_PATH/logs/error_log
 touch /app/$APACHE_PATH/logs/access_log
 tail -F /app/$APACHE_PATH/logs/error_log &
 tail -F /app/$APACHE_PATH/logs/access_log &
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/php-$PHP_VERSION/ext:/app/$APACHE_PATH/modules
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/$PHP_PATH/ext:/app/$APACHE_PATH/modules
 export PHP_INI_SCAN_DIR=/app/www
 echo "Launching apache"
 exec /app/$APACHE_PATH/bin/httpd -DNO_DETACH
