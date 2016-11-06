@@ -64,6 +64,7 @@ cat << EOF > boot.sh
 for var in \`env|cut -f1 -d=\`; do
   echo "PassEnv \$var" >> /app/$APACHE_PATH/conf/httpd.conf;
 done
+rm -fr /app/$APACHE_PATH/logs
 touch /app/$APACHE_PATH/logs/error_log
 touch /app/$APACHE_PATH/logs/access_log
 tail -F /app/$APACHE_PATH/logs/error_log &
