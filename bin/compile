@@ -40,7 +40,8 @@ tar -zxf $APACHE_DIR
 PHP_DIR="${BUILDPACK_DIR}/download/php/5.6/php-$PHP_VERSION.tar.gz"
 echo "-----> Bundling PHP version $PHP_VERSION"
 tar -xzf $PHP_DIR 
-chmod 777 $PHP_PATH -R
+mkdir $PHP_PATH/session
+chmod 777 $PHP_PATH/session -R
 
 # ---------------------------------------------------------------------------- #
 # httpd.conf   php.ini                                                         #
