@@ -32,7 +32,7 @@ mv $CACHE_DIR/www .
 # ---------------------------------------------------------------------------- #
 # Apache HTTP Server                                                           #
 # ---------------------------------------------------------------------------- #
-APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache-$APACHE_VERSION.tar.gz"
+APACHE_DIR="${BUILDPACK_DIR}/download/httpd/2.4/apache-$APACHE_VERSION.1.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"
 tar -zxf $APACHE_DIR
 # Removing any previous log
