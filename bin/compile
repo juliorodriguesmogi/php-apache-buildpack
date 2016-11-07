@@ -28,6 +28,17 @@ chmod 777 $CACHE_DIR/www/session -R
 chmod 777 $CACHE_DIR/www/tmp -R
 mv * $CACHE_DIR/www
 mv $CACHE_DIR/www .
+# CLIDRIVER for IBMDB2
+
+  CLI_URL="https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli/linuxx64_odbc_cli.tar.gz"
+
+  echo "Downloading IBM Data Server Driver...."
+  curl -LO "$CLI_URL"
+
+  # Extracting and Cleaning DS Driver
+  rm -rf clidriver
+  tar -xzf linuxx64_odbc_cli.tar.gz
+
 
 # ---------------------------------------------------------------------------- #
 # Apache HTTP Server                                                           #
@@ -72,7 +83,7 @@ touch /app/$APACHE_PATH/logs/error_log
 touch /app/$APACHE_PATH/logs/access_log
 tail -F /app/$APACHE_PATH/logs/error_log &
 tail -F /app/$APACHE_PATH/logs/access_log &
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/$PHP_PATH/ext:/app/$APACHE_PATH/modules:/app/$PHP_PATH/sapi/cli
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/$PHP_PATH/ext:/app/$APACHE_PATH/modules:/app/$PHP_PATH/sapi/cli:/app/clidriver
 export PHP_INI_SCAN_DIR=/app/www
 echo "Launching apache"
 exec /app/$APACHE_PATH/bin/httpd -DNO_DETACH
