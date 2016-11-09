@@ -34,6 +34,8 @@ DB2CLI_DIR="${BUILDPACK_DIR}/download/ibm_data_server_driver_package_linuxx64_v1
 echo "--->Building DB2 driver"
 tar -zxf $DB2CLI_DIR
 chmod 775 dsdriver -R
+echo "---> Installing DB2 Driver"
+/app/dsdriver/./installDSDriver
 
  DB2INST_DIR="${BUILDPACK_DIR}/download/db2inst1.tar.gz"
  tar -zxf $DB2INST_DIR
