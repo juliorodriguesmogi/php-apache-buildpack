@@ -90,6 +90,8 @@ CLI_URL="https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/o
   export PHP_AUTOCONF=$BUILD_DIR/autoconf/bin/autoconf
   export PHP_AUTOHEADER=$BUILD_DIR/autoconf/bin/autoheader
 
+  pecl install ibm_db2
+
 # ---------------------------------------------------------------------------- #
 # Apache HTTP Server                                                           #
 # ---------------------------------------------------------------------------- #
