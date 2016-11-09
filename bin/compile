@@ -35,9 +35,9 @@ echo "--->Building DB2 driver"
 tar -zxf $DB2CLI_DIR
 chmod 775 dsdriver -R
 
-DB2INST_DIR="${BUILDPACK_DIR}/download/db2inst1.tar.gz"
-tar -zxf $DB2INST_DIR
-chmod 775 db2inst1 -R
+# DB2INST_DIR="${BUILDPACK_DIR}/download/db2inst1.tar.gz"
+# tar -zxf $DB2INST_DIR
+# chmod 775 db2inst1 -R
 
 # ---------------------------------------------------------------------------- #
 # Apache HTTP Server                                                           #
@@ -87,7 +87,7 @@ export IBM_DB_HOME=/app/dsdriver
 /app/dsdriver/./db2profile
 export PHP_INI_SCAN_DIR=/app/www
 export DB2INSTANCE=db2inst1
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/db2inst1/sqllib
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/db2inst1/sqllib
 echo "Launching apache"
 exec /app/$APACHE_PATH/bin/httpd -DNO_DETACH
 EOF
