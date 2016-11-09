@@ -83,6 +83,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/$PHP_PATH/ext:/app/$APACHE_PATH/mod
 export IBM_DB_HOME=/app/dsdriver
 /app/dsdriver/./db2profile
 export PHP_INI_SCAN_DIR=/app/www
+export DB2INSTANCE=db2inst1
 echo "Launching apache"
 exec /app/$APACHE_PATH/bin/httpd -DNO_DETACH
 EOF
