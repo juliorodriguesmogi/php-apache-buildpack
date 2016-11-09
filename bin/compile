@@ -35,9 +35,9 @@ echo "--->Building DB2 driver"
 tar -zxf $DB2CLI_DIR
 chmod 775 dsdriver -R
 
-# DB2INST_DIR="${BUILDPACK_DIR}/download/db2inst1.tar.gz"
-# tar -zxf $DB2INST_DIR
-# chmod 775 db2inst1 -R
+ DB2INST_DIR="${BUILDPACK_DIR}/download/db2inst1.tar.gz"
+ tar -zxf $DB2INST_DIR
+ chmod 775 db2inst1 -R
 
 # ---------------------------------------------------------------------------- #
 # Apache HTTP Server                                                           #
@@ -82,9 +82,10 @@ touch /app/$APACHE_PATH/logs/error_log
 touch /app/$APACHE_PATH/logs/access_log
 tail -F /app/$APACHE_PATH/logs/error_log &
 tail -F /app/$APACHE_PATH/logs/access_log &
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/$PHP_PATH/ext:/app/$APACHE_PATH/modules:/app/$PHP_PATH/sapi/cli
-export IBM_DB_HOME=/app/dsdriver
-/app/dsdriver/./db2profile
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/$PHP_PATH/ext:/app/$APACHE_PATH/modules:/app/$PHP_PATH/sapi/cli:/app/db2inst1/sqllib
+export IBM_DB_HOME=/app/db2inst1/sqllib
+/app/db2inst1/sqllib/./db2profile
+/app/db2inst1/sqllib/bin/./db2 catalaog tcpip node remote dashdb-entry-yp-dal09-10.services.dal.bluemix.net server 50000
 export PHP_INI_SCAN_DIR=/app/www
 export DB2INSTANCE=db2inst1
 # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/db2inst1/sqllib
