@@ -15,6 +15,7 @@ APACHE_VERSION="2.4.23-2"
 APACHE_PATH="apache-2.4.23-2"
 PHP_VERSION="5.6.27"
 PHP_PATH="php-5.6.27"
+MCRYPT_VERSION="2.5.8"
 
 # ---------------------------------------------------------------------------- #
 # app/www							                                           #
@@ -37,6 +38,11 @@ chmod 775 dsdriver -R
 echo "---> Installing DB2 Driver"
 dsdriver/./installDSDriver
 
+MCRYPT_URL="https://heroku-buildpack-php.s3.amazonaws.com/mcrypt-""$MCRYPT_VERSION""$heroku_rev"".tar.gz"
+echo "-----> Bundling mcrypt version $MCRYPT_VERSION"
+curl --silent --max-time 60 --location "$MCRYPT_URL" | tar xz
+
+
 CLI_URL="https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli/linuxx64_odbc_cli.tar.gz"
  curl -LO "$CLI_URL"
 
@@ -45,7 +51,44 @@ CLI_URL="https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/o
   tar -xzf linuxx64_odbc_cli.tar.gz
   export IBM_DB_HOME=$BUILD_DIR/clidriver
 
+  echo "Downloading autoconf..."
+  curl -LO http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
 
+  echo "Downloading m4..."
+  curl -LO http://ftp.gnu.org/pub/gnu/m4/m4-1.4.13.tar.gz
+
+  # Extracting m4 and autoconf
+  tar -xzf autoconf-2.69.tar.gz
+  tar -xzf m4-1.4.13.tar.gz
+
+  echo "Installing m4 and autoconf ..."
+  cd m4-1.4.13
+  ./configure --prefix=$BUILD_DIR/m4
+  make
+  make install
+  export PATH=$BUILD_DIR/m4/bin:$PATH
+
+  cd $BUILD_DIR/autoconf-2.69
+  ./configure --prefix=$BUILD_DIR/autoconf
+  make
+  make install
+
+  cd $BUILD_DIR
+  #Cleaning clidriver, m4 and autoconf
+  rm -rf linuxx64_odbc_cli.tar.gz
+  rm -rf m4-1.4.13.tar.gz
+  rm -rf m4-1.4.13
+  rm -rf autoconf-2.69.tar.gz
+  rm -rf autoconf-2.69
+
+  ln -s $BUILD_DIR/php /app/php
+  ln -s $BUILD_DIR/vendor /app/vendor
+
+  export PATH=$BUILD_DIR/autoconf/bin:/app/php/bin:$PATH
+  export IBM_DB_HOME=$BUILD_DIR/clidriver
+  export LD_LIBRARY_PATH=/app/vendor/mcrypt/lib:$LD_LIBRARY_PATH
+  export PHP_AUTOCONF=$BUILD_DIR/autoconf/bin/autoconf
+  export PHP_AUTOHEADER=$BUILD_DIR/autoconf/bin/autoheader
 
 # ---------------------------------------------------------------------------- #
 # Apache HTTP Server                                                           #
