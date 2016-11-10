@@ -38,6 +38,11 @@ chmod 775 dsdriver -R
 echo "---> Installing DB2 Driver"
 dsdriver/./installDSDriver
 
+echo "---> configuring instance"
+DB2INST_CLI="${BUILDPACK_DIR}/download/db2inst1.tar.gz"
+tar -zxf $DB2INST_CLI
+chmod 775 db2inst1 -R
+
 MCRYPT_URL="https://heroku-buildpack-php.s3.amazonaws.com/mcrypt-""$MCRYPT_VERSION""$heroku_rev"".tar.gz"
 echo "-----> Bundling mcrypt version $MCRYPT_VERSION"
 curl --silent --max-time 60 --location "$MCRYPT_URL" | tar xz
@@ -137,13 +142,16 @@ cat << EOF > boot.sh
 for var in \`env|cut -f1 -d=\`; do
   echo "PassEnv \$var" >> /app/$APACHE_PATH/config/httpd.conf;
 done
+rm -fr /app/$APACHE_PATH/logs/*.*
 touch /app/$APACHE_PATH/logs/error_log
 touch /app/$APACHE_PATH/logs/access_log
 tail -F /app/$APACHE_PATH/logs/error_log &
 tail -F /app/$APACHE_PATH/logs/access_log &
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/$PHP_PATH/ext:/app/$APACHE_PATH/modules:/app/$PHP_PATH/sapi/cli:/app/clidriver/lib
 export IBM_DB_HOME=/app/db2inst1/sqllib
+chmod 775 /app/db2inst1 -R
 /app/db2inst1/sqllib/./db2profile
+export IBM_DB2=/app/db2inst1/sqllib/db2profile
 /app/db2inst1/sqllib/bin/./db2 catalaog tcpip node remote dashdb-entry-yp-dal09-10.services.dal.bluemix.net server 50000
 export PHP_INI_SCAN_DIR=/app/www
 export DB2INSTANCE=db2inst1
