@@ -90,8 +90,6 @@ CLI_URL="https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/o
   export PHP_AUTOCONF=$BUILD_DIR/autoconf/bin/autoconf
   export PHP_AUTOHEADER=$BUILD_DIR/autoconf/bin/autoheader
 
-  pecl install ibm_db2
-
 # ---------------------------------------------------------------------------- #
 # Apache HTTP Server                                                           #
 # ---------------------------------------------------------------------------- #
@@ -110,6 +108,14 @@ echo "-----> Bundling PHP version $PHP_VERSION"
 tar -xzf $PHP_DIR 
 mkdir $PHP_PATH/session
 chmod 777 $PHP_PATH/session -R
+
+CACHED_DIRS="ibmdb2"
+for dir in $CACHED_DIRS; do
+  cp -R $CACHE_DIR/$dir/* . &> /dev/null || true
+done
+
+mv ibm_db2.so $PHP_PATH/ext 
+
 
 # ---------------------------------------------------------------------------- #
 # httpd.conf   php.ini                                                         #
