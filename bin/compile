@@ -158,7 +158,7 @@ export DB2INSTANCE=db2inst1
 # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/db2inst1/sqllib
 echo "Launching apache"
 #exec /app/$APACHE_PATH/bin/httpd -DNO_DETACH
-exec /app/$APACHE_PATH/bin/apachectl start
+/app/$APACHE_PATH/bin/./apachectl start
 EOF
 
 chmod +x boot.sh
